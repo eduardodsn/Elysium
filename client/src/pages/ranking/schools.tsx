@@ -50,14 +50,14 @@ export default function Ranking(props) {
           }`}
         >
           <span
-            className={`${styles.labelPosition} ${
+            className={`${styles.labelPositionSchool} ${
               contextUserData.isSwitchChecked ? styles.darkText : ""
             }`}
           >
             POSITION
           </span>
           <span
-            className={`${styles.labelStudent} ${
+            className={`${styles.labelSchool} ${
               contextUserData.isSwitchChecked ? styles.darkText : ""
             }`}
           >
@@ -79,7 +79,7 @@ export default function Ranking(props) {
             key={id}
           >
             <span className={styles.position}>{id + 1}</span>
-            <div className={styles.userInfo}>
+            <div className={styles.schoolInfo}>
               <div>
                 <p>{school.nm_escola}</p>
               </div>

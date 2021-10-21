@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BiUpload } from 'react-icons/bi'
 import { useDropzone } from 'react-dropzone'
 import styles from '../styles/components/UploadArea.module.css';
@@ -13,9 +13,23 @@ import axios from 'axios';
 export default function UploadArea() {
     const router = useRouter()
     const contextUserData = useData()
+    const [isSaveChecked, setIsSaveChecked] = useState(false)
+    const [selectedCategory, setSelectedCategory] = useState(-1)
+    const [bookName, setBookName] = useState("");
+    const [categories, setCategories] = useState([])
+
+
     if(contextUserData.text != "") {
         router.push('/reading')
     }
+
+    useEffect(() => {
+        axios.get('http://localhost:3001/api/categories/read')
+        .then((res) => {
+            setCategories(res.data.data)
+        })
+    }, [])
+
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         accept: "application/pdf",
         onDrop: async (accepedFiles) => {
@@ -29,10 +43,26 @@ export default function UploadArea() {
                 } else {
                     const data = new FormData();
                     data.append('file', accepedFiles[0], accepedFiles[0].name);
+                    data.append('token', Cookie.get('token'))
+
+                    if(isSaveChecked) {
+                        console.log(String(selectedCategory))
+                        data.append('isSalvar', "true")
+                        data.append('bookName', bookName)
+                        data.append('idCategoria', String(selectedCategory))
+                    } else {
+                        data.append('isSalvar', "false")
+                    }
+
                     axios.post('http://localhost:3001/api/books/create', data)
                         .then(res => {
                             contextUserData.setText(res.data.text);
-                            contextUserData.setNameText(accepedFiles[0].name)
+
+                            if(isSaveChecked) {
+                                contextUserData.setNameText(bookName)
+                            } else {
+                                contextUserData.setNameText(accepedFiles[0].name)
+                            }
     
                             Cookie.set('upload', 'true', {
                                 expires: addHours(new Date(), 2),
@@ -81,6 +111,36 @@ export default function UploadArea() {
                             </label>
                     }
                 </div>
+            </div>
+            <div className={`${styles.saveBox} ${contextUserData.isSwitchChecked ? styles.dark : ""}`}>
+                <label id={styles.saveLabel}>
+                    <input type="checkbox" onChange={() => {
+                        if(isSaveChecked) {
+                            setIsSaveChecked(false)
+                            setBookName("")
+                            setSelectedCategory(-1)
+                        } else {
+                            setIsSaveChecked(true);
+                        }
+                        
+                    }}/>
+                    Save this file on my profile
+                </label> 
+                
+                <label id={styles.nameLabel} htmlFor="fileName" style={{ display: isSaveChecked ? "" : "none"}}>
+                    Name of this file:
+                    <input type="text" name="fileName" value={bookName} onChange={(e) => setBookName(e.target.value)}/>
+                </label>
+
+                <label id={styles.categoryLabel} htmlFor="category" style={{ display: isSaveChecked ? "" : "none"}}>
+                    Category:
+                    <select name="category" value={selectedCategory} onChange={(e) => setSelectedCategory(parseInt(e.target.value))}>
+                    <option selected disabled value={-1}>None</option>
+                    {categories.map((cat, id) => {
+                            return <option key={id} value={cat.id_categoria}>{cat.nm_categoria}</option>
+                    })}
+                    </select>
+                </label>
             </div>
         </div>
     )

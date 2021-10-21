@@ -101,7 +101,7 @@ export default function CreateQuestions() {
 					setOldQuestionDs(questionDs);
 					setQuestionId(res.data.id);
 
-					toast.success("Questions created successfully!")
+					toast.success(`Question created successfully with id ${res.data.id}!`)
 				} else if(res.data.status === "[ALREADY EXISTS]") {
 					toast.error(`This question already exists with id ${res.data.id}!`)
 				} else {

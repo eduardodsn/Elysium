@@ -267,28 +267,54 @@ routes.get("/api/schools/ranking", async (req, res) => {
 	});
 });
 
-//BOOKS
+// Criar livro para salvar no perfil ou apenas para leitura
 routes.post("/api/books/create", multer(config).single("file"), (req, res) => {
-	let dirPath = path.resolve(__dirname, "..", "tmp", "uploads");
+	let diretorioUploads = path.resolve(__dirname, "..", "tmp", "uploads");
 
-	pdfUtil.pdfToText(req.file.path, (err, data) => {
-		try {
-			var files = fs.readdirSync(dirPath);
-		} catch (e) {
-			return;
-		}
+	if(String(req.body.isSalvar) === "true") {
+		let id_categoria = parseInt(req.body.idCategoria);
+		let titulo_anexo = req.body.bookName;
+		
+		db.query(
+			"(SELECT id FROM usuarios WHERE token = ?)", req.body.token, async (error, results, fields) => {
+				if (error) {
+					res.send({ data: "[ERROR]" });
+					console.log(error);
+				} else if(results[0].id !== undefined) {
+					let id_usuario = String(results[0].id);
 
-		if (files.length > 0) {
-			for (var i = 0; i < files.length; i++) {
-				var filePath = dirPath + "/" + files[i];
+					// Cria uma pasta para o usuario, se não tiver
+					if (!fs.existsSync(path.join(__dirname, '..', 'tmp', 'uploads', id_usuario))){
+						fs.mkdirSync(path.join(__dirname, '..', 'tmp', 'uploads', id_usuario));
+					}
+					let antigoDest = path.join(__dirname, '..', 'tmp', req.file.filename);
+					let novoDest = path.join(__dirname, '..', 'tmp', 'uploads', id_usuario, req.file.filename);
 
-				if (fs.statSync(filePath).isFile()) fs.unlinkSync(filePath);
-				else rmDir(filePath);
+					// Move o arquivo para a pasta do usuario
+					fs.readFile(antigoDest, function(err, data) {
+						fs.writeFile(novoDest, data, function(err) {
+							fs.unlink(antigoDest, function(){
+								if(err) throw err;
+							});
+							getBookText(novoDest);
+						}); 
+					});
+
+					db.query("INSERT INTO anexos_usuario (titulo_anexo, anexo, id_categoria, id_usuario) VALUES (?, ?, ?, ?)", [titulo_anexo, req.file.filename, id_categoria, id_usuario]);
+				}
 			}
-		}
+		);
+		
+	} else {
+		getBookText(req.file.path);
+	}
 
-		return res.json({ text: data });
-	});
+	// Extrai o texto e retorna o conteudo
+	function getBookText(path) {
+		pdfUtil.pdfToText(path, (err, data) => {
+			return res.json({ text: data });
+		});
+	}
 });
 
 routes.post("/api/words/read", async (req, res) => {
@@ -628,6 +654,20 @@ routes.post("/api/questions/history", async (req, res) => {
 			}
 		});
 	}
+});
+
+
+// Ler categorias
+routes.get("/api/categories/read", async (req, res) => {
+	db.query("SELECT * FROM categorias;", (error, results, fields) => {
+		if (error) {
+			console.log(error);
+			res.send({ status: "[ERROR]" })
+		} else {
+			res.send({ data: results})
+		}
+	});
+
 });
 
 module.exports = routes;

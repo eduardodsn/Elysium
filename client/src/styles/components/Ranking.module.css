@@ -62,19 +62,19 @@
     border: 0.15rem solid var(--blue) !important;
 }
 
-.userInfo {
-    width: 70%;
+.userInfo, .schoolInfo {
+    width: 60%;
     display: flex;
     flex-direction: column;
     font-family: Inter, sans-serif;
 }
 
-.userInfo div {
+.userInfo div, .schoolInfo div {
     display: flex;
     align-items: center;
 }
 
-.userInfo div h6 {
+.userInfo div h6, .schoolInfo div h6 {
     background: var(--blue);
     padding: 5px;
     border-radius: 10%;
@@ -82,13 +82,13 @@
     margin-right: 3%;
 }
 
-.userInfo p {
+.userInfo p, .schoolInfo p {
     font: bold 1.2rem 'Inter', sans-serif;
     color: var(--title);
     margin-right: 3%;
 }
 
-.userInfo span {
+.userInfo span, .schoolInfo span {
     font: 400 0.9rem 'Inter', sans-serif;
 }
 
@@ -148,14 +148,16 @@
     color: #737380;
     opacity: 0.5;
     width: 50%;
+    display: flex;
+    justify-content: space-evenly;
 }
 
 .labelPosition {
-    padding-right: 5%;
+    padding-right: 17%;
 }
 
 .labelStudent {
-    padding-right: 61%;
+    padding-right: 50%;
 }
 
 .dark {
@@ -177,7 +179,7 @@
     background: #010101 !important;
 }
 
-.darkCard .position, .darkCard .userInfo span, .darkCard .nameXp {
+.darkCard .position, .darkCard .userInfo span, .darkCard .schoolInfo span, .darkCard .nameXp {
     color: white !important;
 }
 
@@ -185,7 +187,7 @@
     border: 0.15rem solid var(--blue) !important;
 }
 
-.darkCard .userInfo p {
+.darkCard .userInfo p, .darkCard .schoolInfo p{
     color: var(--blue) !important;
 }
 
@@ -230,4 +232,16 @@
 
 .arrowToStudents > svg:hover {
     cursor: pointer;
+}
+
+.schoolInfo {
+    width: 70% !important;
+}
+
+.labelPositionSchool {
+    padding-right: 5%;
+}
+
+.labelSchool {
+    padding-right: 64%;
 }

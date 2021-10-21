@@ -57,11 +57,11 @@ export default function questions(props) {
 
 					for (let id = i; id < i + 5; id++) {
 						if (userQuestions[id].id_questao === currentQuestionId) {
-							options.push(userQuestions[id].ds_opcoes);
+							options.push(userQuestions[id].ds_opcao);
 						}
 
 						if (userQuestions[id].certo.data[0] === 1) {
-							setCurrentRightAnswer(userQuestions[id].ds_opcoes.toLowerCase());
+							setCurrentRightAnswer(userQuestions[id].ds_opcao.toLowerCase());
 						}
 					}
 

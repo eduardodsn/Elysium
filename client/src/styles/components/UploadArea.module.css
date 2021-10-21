@@ -66,3 +66,66 @@
 .darkIcon {
     color: #bebebe !important;
 }
+
+.saveBox, .saveBox label {
+    display: flex;
+    flex-direction: column;
+}
+
+.saveBox {
+    align-items: center;
+    margin-top: 2%;
+    width: 52vw;
+    font: 400 1.2vw 'Roboto', sans-serif;
+    color: black;
+}
+
+#saveLabel {
+    align-items: center;
+    flex-direction: row !important;
+    width: 26vw;
+    justify-content: center;
+    margin-bottom: 2%;
+}
+
+#saveLabel input[type='checkbox']{
+    margin-right: 2%;
+}
+
+.saveBox input[type='text'], .saveBox select{
+    width: 26vw;
+    height: 8vh;
+    margin-bottom: 2%;
+}
+
+.saveBox input[type='text'], .saveBox select {
+    padding: 0 1vw;
+    background: var(--background);
+    border: 1px solid rgb(184, 184, 184);
+    border-radius: 4px;
+}
+
+.saveBox input[type='text']:focus, .saveBox select:focus {
+    border: 2px solid var(--blue);
+    outline: none;
+}
+
+.saveBox input[type='text']:hover:not(:focus), .saveBox select:hover:not(:focus)  {
+    border: 1px solid black;
+}
+
+.saveBox input[type='text'], .saveBox select {
+    padding: 0 3.5vw 0 1vw;
+}
+
+.dark {
+    color: white;
+}
+
+#saveLabel:hover{
+    cursor: pointer;
+}
+
+#categoryLabel select, #categoryLabel option {
+    font-size: 1.2vw;
+}
