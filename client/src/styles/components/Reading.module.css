@@ -1,0 +1,309 @@
+.sidebarHome div > ul > div:nth-child(1) > li {
+    color: var(--blue);
+    opacity: 1;
+}
+
+.sidebarHome div > ul > div:nth-child(1) > span {
+    border-right: 4px solid var(--blue);
+    height: 100%;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    position: absolute;
+    left: 0;
+}
+
+.darkSidebar div > ul > div:nth-child(1) > li {
+    color: var(--white) !important;
+}
+
+.darkSidebar div > ul > div:nth-child(1) > span {
+    border-right: 4px solid var(--blue) !important;
+}
+
+.readingComponent, .readingContainer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.readingComponent {
+    width: 100%;
+    height: 95vh;
+    position: relative;
+    z-index: 1;
+    padding: 0 20%;
+}
+
+.readingContainer {
+    flex-direction: column;
+    width: 85vw;
+    height: 100%;
+    background: white;
+    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.readingContainer::-webkit-scrollbar {
+    width: 0.5vw !important;
+    border-radius: 20px;
+}
+
+.readingContainer::-webkit-scrollbar-track {
+    background: #a0a6e0; 
+    border-radius: 10px;
+}
+
+.readingContainer::-webkit-scrollbar-thumb {
+    background: var(--blue); 
+    border-radius: 10px;
+}
+
+.readingContainer header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: 3vh 0;
+}
+
+.readingContainerPage, .readingContainerPage span, .readingContainerName, .readingContainerBody {
+    display: flex;
+    align-items: center;
+}
+
+.readingContainerPage {
+    justify-content: flex-start;
+    margin: 0 0 0 10px;
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.readingContainerPage span {
+    justify-content: center;
+    width: 100%;
+    border: 0.19vw solid var(--blue);
+    height: 100%;
+    border-radius: 360vw;
+    font: bold 1.4vw "Roboto", sans-serif;
+    color: #737380;
+}
+
+.readingContainerName {
+    justify-content: center;
+    width: 80%;
+    margin-right: 4vw;
+    font: 500 1.2rem "Poppins", sans-serif;
+    color: #000;
+}
+
+.readingContainerBody {
+    flex-direction: column;
+    text-align: justify;
+    padding: 2vh 2vw;
+    font: 400 1rem "Roboto", sans-serif;
+    color: rgba(0, 0, 0, 0.822);
+    position: relative;
+}
+
+.leftReadingContainer svg, .rightReadingContainer svg{
+    width: 4rem;
+    height: 4rem;
+    color: var(--blue);
+}
+
+.leftReadingContainer svg, .rightReadingContainer path{
+    border-radius: 200px;
+}
+
+.closeButton {
+    position: absolute;
+    top: 0;
+    right: 20%;
+    cursor: pointer;
+}
+
+.closeButton svg {
+    width: 3rem;
+    height: 3rem;
+    color: var(--blue);
+}
+
+.word:hover {
+    background: var(--blue-medium);
+    cursor: pointer;
+}
+
+.leftReadingContainer path:hover, .rightReadingContainer path:hover {
+    cursor: pointer;
+}
+
+.disabled svg{
+    color: var(--blue-medium);
+}
+
+.disabled path:hover {
+    cursor: default;
+}
+
+.readingContainerPage ::selection {
+    background: none;
+} 
+
+.card {
+    position: absolute;
+    top: 25vh;
+    width: 30vw;
+    height: auto;
+    background: white;
+    box-shadow: 0px 0px 50px 11px rgba(137,137,137,0.74);
+    border-radius: 4px;
+    padding-bottom: 3%;
+    padding-top: 1%;
+    z-index: 10;
+}
+
+.card header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 3vw;
+    margin-bottom: 3%;
+}
+
+.card header div {
+    padding-top: 4%;
+}
+
+.card header h1 {
+    font: 600 2vw 'Poppins', sans-serif;
+    color: var(--title);
+    margin-bottom: -5%;
+    text-transform: capitalize;
+}
+
+.card header div span {
+    font: 400 1.2vw 'Roboto', sans-serif;
+    color: var(--blue);
+}
+
+.card header svg {
+    width: 3vw;
+    height: 5vh;
+}
+
+.card header svg path {
+    fill: var(--blue);
+}
+
+.card header svg, .card header path:hover {
+    cursor: pointer;
+}
+
+.wordInfo {
+    word-break: keep-all;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 3vw;
+    font: 400 1.2vw 'Roboto', sans-serif;
+    text-align: justify;
+}
+
+.info {
+    margin-top: 3%;
+}
+
+.infoTitle {
+    font-weight: 500;
+    color: var(--blue);
+}
+
+.audioContainer {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.audioContainer div {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.audioContainer button {
+    width: 25%;
+    padding: 2%;
+    background: var(--dark);
+    color: var(--white);
+    border: none; 
+    border-radius: 4px;
+    font: 400 1rem 'Roboto', sans-serif;
+}
+
+.audioContainer button:focus {
+    outline: none;
+}
+
+.audioContainer button:hover {
+    background: #252841f8;
+    transition: 500ms;
+}
+
+.audioContainer svg {
+    margin-left: 2%;
+    width: 2vw;
+    height: 4vh;
+}
+
+.activeCard {
+    display: unset;
+}
+
+.disableCard {
+    display: none;
+}
+
+.readingOuterContainer {
+    display: flex;
+    justify-content: center;
+    margin-right: 2%;
+    position: relative;
+}
+
+.playButton:hover{
+    cursor: pointer;
+}
+
+.info:hover, .infoTitle:hover, .card header h1:hover {
+    cursor: default;
+}
+
+.switchButton {
+    position: absolute;
+    top: 2%;
+    right: 7.5%;
+}
+
+.darkBackground {
+    background: #010101 !important;
+}
+
+.darkTheme {
+    color: #eee !important;
+}
+
+.darkWords:hover {
+    background: var(--blue);
+}
+
+.darkCard {
+    background: #161a1d !important;
+    box-shadow: none;
+}
+
+.darkTitle {
+    color: white !important;
+}

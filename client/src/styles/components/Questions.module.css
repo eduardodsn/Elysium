@@ -1,0 +1,371 @@
+.sidebarHome div > ul > div:nth-child(2) > li {
+    color: var(--blue);
+    opacity: 1;
+}
+
+.sidebarHome div > ul > div:nth-child(2) > span {
+    border-right: 4px solid var(--blue);
+    height: 100%;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    position: absolute;
+    left: 0;
+}
+
+.questionsPage {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.questionsTitle {
+    font-family: 'Inter', sans-serif;
+    color: var(--title);
+    font-size: 1.6rem;
+    position: absolute;
+    top: 5%;
+    left: 10%;
+}
+
+.questionsContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.questionsCard {
+    width: 70%;
+    height: auto;
+    background: var(--white);
+    box-shadow: 0px 0px 50px 12px rgba(0, 0, 0, 0.11);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.questionsCard header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    text-align: justify !important;
+    padding: 5% 0 0 10%;
+    font: 400 1.5rem 'Roboto', sans-serif;
+    color: var(--title);
+}
+
+.radioContainer {
+    display: flex;
+    align-items: flex-start;
+    justify-items: center;
+    flex-direction: column;
+    width: 100%;
+    padding: 5% 0 2% 10%;
+}
+
+.option {
+    width: 60%;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.option label {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.option input {
+    -webkit-appearance: none;
+    margin-right: 5%;
+    width: 1.5vw;
+    height: 3vh;
+    border: 1px var(--blue) inset;
+    border-radius: 50%;
+    outline: none;
+}
+
+.option input:hover {
+    border: 2px var(--blue) inset;
+}
+
+.option input:before {
+    content: '';
+    display: block;
+    width: 60%;
+    height: 60%;
+    margin: 20% auto;    
+    border-radius:50%;    
+}
+
+.option input:checked:before {
+    background:var(--blue);
+}
+
+.option label {
+    font: 400 1.3rem 'Roboto', sans-serif;
+    color: #000;
+}
+
+.bottomButtons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 90%;
+    margin-bottom: 2%;
+}
+
+.bottomButtons button {
+    width: 22%;
+    height: 7vh;
+    border: 0;
+    margin-right: 2%;
+    background: var(--blue-medium);
+    color: var(--blue);
+}
+
+.switchButton {
+    position: absolute;
+    top: 2%;
+    right: 4.5%;
+}
+
+.sidebarHome, .darkSidebar {
+    transition: all 0.3s ease !important;
+}
+
+.darkSidebar div > ul > div:nth-child(2) > li {
+    color: var(--white) !important;
+}
+
+.darkSidebar div > ul > div:nth-child(2) > span {
+    border-right: 4px solid var(--blue) !important;
+}
+
+.darkBackground {
+    background: #161a1d !important;
+}
+
+.darkCard {
+    background: #010101 !important;
+    box-shadow: none !important;
+}
+
+.darkCard header, .darkCard label, .darkTitle, .darkTitle button {
+    color: white !important;
+}
+
+.darkCard .option input {
+    border: 2px var(--blue) inset !important;
+}
+
+.darkCard .option input:checked:before {
+    background: var(--white);
+}
+
+.option input {
+    -webkit-appearance: none;
+    margin-right: 5%;
+    width: 1.5vw;
+    height: 3vh;
+    border: 1px var(--blue) inset;
+    border-radius: 50%;
+    outline: none;
+}
+
+.darkCard .option input:hover {
+    border: 2px var(--blue) inset;
+}
+
+.option input:before {
+    content:'';
+    display:block;
+    width:60%;
+    height:60%;
+    margin: 20% auto;    
+    border-radius:50%;    
+}
+
+.option input:checked:before {
+    background:var(--blue);
+}
+
+.questionsPage section {
+    width: 100%;
+}
+
+.formContainer {
+    width: 100%;
+    height: fit-content;
+    margin: 6% 0 0 0;
+    display: flex;
+    justify-content: center;
+}
+
+.formContainer form {
+    border-radius: 4px;
+    background: var(--white);
+    box-shadow: 0px 0px 50px 12px rgba(0, 0, 0, 0.11);
+    width: 60%;
+    height: 85vh;
+    display: flex;
+    flex-direction: column;
+    padding: 2%
+}
+
+.formContainer input {
+    padding-left: 1%;
+    outline: none;
+    background: #eee;
+    border-radius: 4px;
+}
+
+.searchQuestion, .questionData, .createQuestionButtons {
+    padding: 0 10%;
+}
+
+.searchQuestion {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4%;
+}
+
+.searchQuestion button, .createQuestionButtons button {
+    width: 8vw;
+    height: 5vh;
+    text-transform: capitalize;
+    color: var(--white);
+    font: 500 1.1vw 'Roboto', sans-serif;
+    border-radius: 4px;
+    border: none;
+}
+
+.searchQuestion button {
+    background: var(--dark);
+}
+
+.questionData {
+    display: flex;
+    flex-direction: column;
+}
+
+.questionData input {
+    height: 5vh;
+}
+
+.dsQuestion, .alts {
+    margin-bottom: 2%;
+}
+
+.alts {
+    width: 60%;
+}
+
+.questionData label {
+    font-family: Inter;
+    color: black;
+}
+
+.createQuestionButtons, .createQuestionButtons div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.createQuestionButtons {
+    width: 100%;
+}
+
+.createQuestionButtons div {
+    width: 40%;
+}
+
+.deleteButton {
+    background: red;
+}
+
+.updateButton {
+    background: var(--blue);
+}
+
+.createButton {
+    background: var(--dark);
+}
+
+.correctBox {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.correctBox label {
+    display: flex;
+    align-items: center;
+    margin-right: 4%;
+}
+
+.correctInput {
+    margin-left: 10%;
+}
+
+.deleteModal {
+    flex-direction: column;
+    position: absolute;
+    top: 25vh;
+    left: 32vw;
+    align-items: center;
+    justify-content: center;
+    text-align: justify;
+    width: 500px;
+    height: 200px;
+    background: white;
+    box-shadow: 0px 0px 50px 11px rgba(137,137,137,0.74);
+    border-radius: 2%;
+    z-index: 10000;
+    font-family: Inter, sans-serif;
+}
+
+.deleteModal h2 {
+    color: black;
+    font-size: 1.3rem;
+    padding: 10%;
+}
+
+.deleteModal div {
+    width: 60%;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10%;
+}
+
+.deleteModal button {
+    width: 10vw;
+    height: 6vh;
+    text-transform: capitalize;
+    color: var(--white);
+    font: 500 1.1vw 'Roboto', sans-serif;
+    border-radius: 4px;
+    border: none;
+    transition: background 0.2s ease;
+}
+
+.deleteModal button:nth-child(1){
+    background: var(--blue-dark);
+}
+
+.deleteModal button:nth-child(2){
+    background: red;
+}
+
+.darkDeleteModal {
+    background: #101314 !important;
+    box-shadow: none;
+}
+
+.darkDeleteModal h2 {
+    color: white;
+}

@@ -1,0 +1,369 @@
+.formContainer, .formContainer form {
+    display: flex;
+}
+
+.formContainer {
+    width: 100%;
+    padding-left: 20%;
+}
+
+.inputInfo, .passwordContainer, .uploadContainer, .submitButton {
+    width: 22vw;
+    height: 8vh;
+}
+
+.formContainer, .formContainer form {
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+.formContainer form{
+    align-items: space-evenly;
+    width: 200px;
+}
+
+.formContainer form > input, .formContainer form > select {
+    margin-bottom: 1vh;
+}
+
+.selects {
+    display: flex;
+    margin-bottom: 1vh;
+    width: 22vw;
+}
+
+.selects select {
+    -webkit-appearance: none;
+    background: url('data:image/svg+xml;utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>') 100% 50% no-repeat;
+    background-position-x: 90%;
+    background: #eee;
+}
+
+.selects select[name="state"] {
+    margin-right: 4%;
+    width: 30%;
+}
+
+.selects select[name="city"] {
+    width: 75%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 0 3vw 0 1vw;
+}
+
+.inputInfo {
+    padding: 0 1vw;
+    background: var(--background);
+    border: 1px solid rgb(184, 184, 184);
+    border-radius: 4px;
+    font: 400 1.2vw 'Roboto', sans-serif;
+    color: #747373;
+}
+
+.inputInfo:focus {
+    border: 2px solid var(--blue);
+    outline: none;
+}
+
+.inputInfo:hover:not(:focus) {
+    border: 1px solid black;
+}
+
+.passwordContainer {
+    position: relative;
+}
+
+.passwordContainer .inputInfo {
+    padding: 0 3.5vw 0 1vw;
+}
+
+.passwordContainer .passIcon {
+    position: absolute;
+    right: 1.5vw;
+    top: 32%;
+    cursor: pointer;
+}
+
+.icons {
+    width: 1.5vw;
+    height: 1.5vw;
+}
+
+.uploadContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    font: 400 1.2vw 'Roboto', sans-serif;
+    border: 1px solid rgb(184, 184, 184);
+    padding-left: 1vw;
+    border-radius: 4px;
+    margin: 1vh 0;
+    background: #eee;
+}
+
+.uploadContainer > span {
+    width: 65%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.fileLabel {
+    position: absolute;
+    right: 0;
+    width: 30%;
+    height: 100%;
+    background: var(--blue);
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--white);
+    transition: background 0.2s ease;
+}
+
+.fileLabel:hover {
+    background: var(--blue-dark);
+}
+
+.submitButton {
+    text-transform: capitalize;
+    background: var(--dark);
+    color: var(--white);
+    font: 500 1.1vw 'Roboto', sans-serif;
+    border-radius: 4px;
+    border: none;
+    transition: background 0.2s ease;
+}
+
+.submitButton:hover {
+    background: var(--darkess) !important;
+}
+
+.dark { 
+    background: var(--blue);
+}
+
+.dark:hover {
+    background: var(--blue-dark) !important;
+}
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 1024px) and (max-height: 1366px){
+    .formContainer {
+        width: 100vw;
+    }
+
+    .formContainer .form, .passwordContainer {
+        width: max-content;
+        height: max-content;
+    }
+
+    .inputInfo {
+        width: 45vw;
+        height: 6vh;
+    }
+
+    .inputInfo, .submitButton, .uploadContainer {
+        font-size: 2.2vw;
+        width: 600px;
+        height: 80px;
+    }
+
+    .passIcon svg{
+        width: 2.5vw;
+        height: 2.5vh;
+    }
+
+    .formContainer {
+        padding: 0 auto;
+    }
+
+    .formContainer form input[name="password"] {
+        padding: 0 4.2vw 0 1vw;
+    }
+
+    .selects select[name="state"] {
+        width: 150px;
+    }
+
+    .selects {
+        width: max-content;
+    }
+
+    .selects select[name="city"] {
+        width: 450px;
+    }
+}
+
+@media (min-height: 1023px) and (max-height: 1024px){
+    .formContainer .form, .passwordContainer {
+        width: max-content;
+        height: max-content;
+    }
+
+    .inputInfo, .uploadContainer, .submitButton {
+        width: 32vw;
+        height: 7vh;
+    }
+
+    .selects select[name="state"] {
+        width: 8vw;
+    }
+
+    .selects {
+        width: max-content;
+    }
+
+    .selects select[name="city"] {
+        width: 24vw;
+    }
+
+    .inputInfo, .uploadContainer, .submitButton {
+        font-size: 1.5vw;
+    }
+}
+
+@media (max-width: 768px) and (max-height: 1024px){
+
+    .inputInfo, .uploadContainer, .submitButton {
+        font-size: 2.5vw !important;
+    }
+
+    .inputInfo, .submitButton, .uploadContainer {
+        font-size: 2.2vw;
+        width: 450px;
+        height: 80px;
+    }
+
+    .passIcon svg{
+        width: 2.5vw;
+        height: 2.5vh;
+    }
+
+    .formContainer {
+        padding: 0 auto;
+    }
+
+    .formContainer form input[name="password"] {
+        padding: 0 4.2vw 0 1vw;
+    }
+
+    .selects select[name="state"] {
+        width: 120px;
+    }
+
+    .selects {
+        width: max-content;
+    }
+
+    .selects select[name="city"] {
+        width: 330px;
+    }
+}
+
+@media (max-width: 1024px) and (max-height: 769px){
+    .formContainer {
+        width: 55vw;
+    }   
+
+    .inputInfo, .submitButton, .uploadContainer {
+        font-size: 2.2vw;
+        width: 350px;
+        height: 70px;
+    }
+
+    .passIcon svg{
+        width: 2.5vw;
+        height: 2.5vh;
+    }
+
+    .formContainer {
+        width: 50vw;
+        padding-left: 18%;
+    }
+
+    .formContainer form input[name="password"] {
+        padding: 0 4.2vw 0 1vw;
+    }
+
+    .selects select[name="state"] {
+        width: 100px;
+    }
+
+    .selects {
+        width: max-content;
+    }
+
+    .selects select[name="city"] {
+        width: 250px;
+    }
+}
+
+@media (min-width: 279px) and (max-width: 481px) and (max-height: 813px), (min-width: 320px) and (max-width: 767px) {
+    .formContainer form {
+        align-items: center !important;
+        margin-left: -12%;
+    }
+    
+    .formContainer {
+        width: 80%;
+        padding-left: 0;
+    }
+
+    .inputInfo, .submitButton, .uploadContainer {
+        font-size: 4.2vw !important;
+        width: 78vw;
+        height: 55px;
+        padding-left: 5%;
+    }
+
+    .uploadContainer {
+        padding-left: 6% !important;
+    }
+
+    .passIcon {
+        right: 5% !important;
+    }
+
+    .passIcon svg{
+        width: 4.5vw;
+        height: 4.5vh;
+    }
+
+    .formContainer form input[name="password"] {
+        padding: 0 10.2vw 0 5%;
+    }
+
+    .selects select[name="state"] {
+        width: 20vw;
+    }
+
+    .selects {
+        width: max-content;
+    }
+
+    .selects select[name="city"] {
+        width: 57vw;
+        padding-left: 5%;
+    }
+
+}
+
+@media (min-height: 811px) and (max-height: 824px) {
+    .titleContainer {
+        justify-content: flex-start;
+    }
+
+    .titleContainer img {
+        width: 18%;
+    }
+
+    .titleContainer h1 {
+        font-size: 22vw;
+    }
+}

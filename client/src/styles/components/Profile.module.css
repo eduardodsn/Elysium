@@ -1,0 +1,429 @@
+.profilePage {
+    display: flex;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    font-family: Inter;
+    transition: all 0.3s ease;
+}
+
+.imageContainer {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 2%;
+    flex-direction: column;
+}
+
+.userImage {
+    border-radius: 10rem;
+    object-fit: cover;
+    width: 10rem;
+    height: 10rem;
+}
+
+.nameTitle, .location, .school, .emblema h3 {
+    font-family: Inter, sans-serif;
+}
+
+.nameTitle {
+    margin-top: 2%;
+    font-size: 1.8rem;
+}
+
+.location {
+    font-size: 1.3rem;
+}
+
+.emblema {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.divisor {
+    width: 80%;
+    border-bottom: 3px solid var(--blue);
+    margin-top: 2%;
+}
+
+.emblema img {
+    z-index: 1000;
+    width: 3rem;
+    margin: -50% 10% 0 10%;
+}
+
+.emblema h3 {
+    background: var(--blue);
+    padding: 5px;
+    border-radius: 10%;
+    margin-top: 10px;
+    color: white;
+}
+
+.userData {
+    display: flex;
+    justify-content: space-between;
+    width: 40%;
+    margin-top: -6%;
+}
+
+.userData h1 {
+    font-family: Inter;
+    color: black;
+}
+
+.innerXp {
+    display: flex;
+}
+
+.innerXp h1, .innerXp h3 {
+    font-family: Inter, sans-serif;
+    color: black;
+}
+
+.xp, .ranking {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.switchButton {
+    position: absolute;
+    top: .79rem;
+    right: 4.45%;
+}
+
+.sidebarHome div > ul > div:nth-child(6) > li {
+    color: var(--blue);
+    opacity: 1;
+}
+
+.sidebarHome div > ul > div:nth-child(6) > span {
+    border-right: 4px solid var(--blue);
+    height: 100%;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    position: absolute;
+    left: 0;
+}
+
+.sidebarHome, .darkSidebar {
+    transition: all 0.3s ease !important;
+}
+
+.dark {
+    background: #161a1d !important;
+}
+
+.darkTheme {
+    color: #eee !important;
+}
+
+.darkSidebar div > ul > div:nth-child(6) > li {
+    color: var(--white) !important;
+}
+
+.darkSidebar div > ul > div:nth-child(6) > span {
+    border-right: 4px solid var(--blue) !important;
+}
+
+
+.formContainer, .formContainer form {
+    margin-top: 1%;
+    display: flex;
+    flex-direction: row !important;
+}
+
+.formContainer form > div {
+    padding-right: 50px;
+    width: 100%;
+}
+
+.formContainer {
+    width: 100%;
+}
+
+.inputInfo, .passwordContainer, .uploadContainer{
+    width: 22vw;
+    height: 8vh;
+    margin-bottom: 2%;
+}
+
+.updateAccount, .deleteAccount {
+    width: 10vw;
+    height: 6vh;
+}
+
+.buttons {
+    margin-top: 2%;
+    margin-left: 0.1%;
+    width: 52.5%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.updateAccount {
+    margin-left: -50%;
+}
+
+.formContainer, .formContainer form {
+    flex-direction: column;
+    justify-content: center;
+}
+
+.formContainer{
+    padding-left: 4.5%;
+    width: 62%;
+}
+
+.formContainer form > input, .formContainer form > select {
+    margin-bottom: 1vh;
+}
+
+.selects {
+    display: flex;
+    width: 22vw;
+}
+
+.selects select {
+    -webkit-appearance: none;
+    background: url('data:image/svg+xml;utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>') 100% 50% no-repeat;
+    background-position-x: 90%;
+    background: #eee;
+}
+
+.selects select[name="state"] {
+    margin-right: 4%;
+    width: 30%;
+}
+
+.selects select[name="city"] {
+    width: 75%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 0 3vw 0 1vw;
+}
+
+.inputInfo {
+    padding: 0 1vw;
+    background: var(--background);
+    border: 1px solid rgb(184, 184, 184);
+    border-radius: 4px;
+    font: 400 1.2vw 'Roboto', sans-serif;
+    color: #747373;
+}
+
+.inputInfo:focus {
+    border: 2px solid var(--blue);
+    outline: none;
+}
+
+.inputInfo:hover:not(:focus) {
+    border: 1px solid black;
+}
+
+.passwordContainer {
+    position: relative;
+}
+
+.passwordContainer .inputInfo {
+    padding: 0 3.5vw 0 1vw;
+}
+
+.passwordContainer .passIcon {
+    position: absolute;
+    right: 1.5vw;
+    top: 32%;
+    cursor: pointer;
+}
+
+.icons {
+    width: 1.5vw;
+    height: 1.5vw;
+}
+
+.uploadContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    font: 400 1.2vw 'Roboto', sans-serif;
+    border: 1px solid rgb(184, 184, 184);
+    padding-left: 1vw;
+    border-radius: 4px;
+    margin: 1vh 0;
+    background: #eee;
+}
+
+.uploadContainer > span {
+    width: 65%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.fileLabel {
+    position: absolute;
+    right: 0;
+    width: 30%;
+    height: 100%;
+    background: var(--blue);
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--white);
+    transition: background 0.2s ease;
+}
+
+.fileLabel:hover {
+    background: var(--blue-dark);
+}
+
+.deleteAccount {
+    text-transform: capitalize;
+    background: red;
+    color: var(--white);
+    font: 500 1.1vw 'Roboto', sans-serif;
+    border-radius: 4px;
+    border: none;
+    transition: background 0.2s ease;
+}
+
+.deleteAccount:hover {
+    background: red;
+}
+
+.updateAccount {
+    text-transform: capitalize;
+    background: var(--dark);
+    color: var(--white);
+    font: 500 1.1vw 'Roboto', sans-serif;
+    border-radius: 4px;
+    border: none;
+    transition: background 0.2s ease;
+}
+
+.updateAccount:hover {
+    background: var(--darkess) !important;
+}
+
+.dark { 
+    background: var(--blue);
+}
+
+.darkText h1, .darkText h3{
+    color: white;
+}
+
+.deleteModal {
+    flex-direction: column;
+    position: absolute;
+    top: 25vh;
+    left: 32vw;
+    align-items: center;
+    justify-content: center;
+    text-align: justify;
+    width: 500px;
+    height: 200px;
+    background: white;
+    box-shadow: 0px 0px 50px 11px rgba(137,137,137,0.74);
+    border-radius: 2%;
+    z-index: 10000;
+}
+
+.deleteModal h2 {
+    color: black;
+    font-size: 1.3rem;
+    padding: 10%;
+}
+
+.deleteModal div {
+    width: 60%;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10%;
+}
+
+.deleteModal button {
+    width: 10vw;
+    height: 6vh;
+    text-transform: capitalize;
+    color: var(--white);
+    font: 500 1.1vw 'Roboto', sans-serif;
+    border-radius: 4px;
+    border: none;
+    transition: background 0.2s ease;
+}
+
+.deleteModal button:nth-child(1){
+    background: var(--blue-dark);
+}
+
+.deleteModal button:nth-child(2){
+    background: red;
+}
+
+.darkUpdateButton {
+    background: var(--blue-dark);
+}
+
+.darkDeleteModal {
+    background: #101314 !important;
+    box-shadow: none;
+}
+
+.darkDeleteModal h2 {
+    color: white;
+}
+
+.label {
+    color: black;
+}
+
+.darkLabel {
+    color: white;
+}
+
+.uploadArea {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10rem;
+    border: .2rem solid var(--blue) !important;
+}
+
+.uploadIcon {
+    position: absolute;
+    width: 7%;
+    height: 7%;
+    z-index: 1000;
+    display: none;
+    color: white;
+}
+
+.uploadArea > img:hover{
+    cursor: pointer;
+    filter: grayscale(50%) blur(1px);
+    transition: filter .3s;
+}
+
+.uploadArea:hover > .uploadIcon {
+    display: initial;
+    transition: display 1s;
+}
+
+.uploadIcon:hover + img {
+    cursor: pointer;
+    filter: grayscale(50%) blur(1px);
+    transition: filter .3s;
+}
+
+.uploadIcon:hover {
+    cursor: pointer;
+}

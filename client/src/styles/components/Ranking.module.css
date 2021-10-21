@@ -1,0 +1,233 @@
+.sidebarHome div > ul > div:nth-child(3) > li {
+    color: var(--blue);
+    opacity: 1;
+}
+
+.sidebarHome div > ul > div:nth-child(3) > span {
+    border-right: 4px solid var(--blue);
+    height: 100%;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    position: absolute;
+    left: 0;
+}
+
+.rankingTitle {
+    font-family: 'Inter', sans-serif;
+    color: var(--title);
+    font-size: 1.6rem;
+    position: absolute;
+    top: 5%;
+    left: 10%;
+}
+
+.rankingPage {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    transition: all 0.3s ease;
+}
+
+.rankingContainer, .card {
+    display: flex;
+    align-items: center;
+}
+
+.rankingContainer {
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.card {
+    width: 50%;
+    height: 12%;
+    margin-bottom: 1%;
+    background: white;
+}
+
+.position {
+    padding: 0 10% 0 3%;
+    font: bold 1.2rem 'Roboto', sans-serif;
+}
+
+.userImage {
+    border-radius: 10rem;
+    object-fit: cover;
+    width: 3.6rem;
+    height: 3.6rem;
+    margin-right: 3%;
+    border: 0.15rem solid var(--blue) !important;
+}
+
+.userInfo {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    font-family: Inter, sans-serif;
+}
+
+.userInfo div {
+    display: flex;
+    align-items: center;
+}
+
+.userInfo div h6 {
+    background: var(--blue);
+    padding: 5px;
+    border-radius: 10%;
+    color: white;
+    margin-right: 3%;
+}
+
+.userInfo p {
+    font: bold 1.2rem 'Inter', sans-serif;
+    color: var(--title);
+    margin-right: 3%;
+}
+
+.userInfo span {
+    font: 400 0.9rem 'Inter', sans-serif;
+}
+
+.userXp {
+    font: 400 0.9rem 'Inter', sans-serif;
+}
+
+.numberXp {
+    color: var(--blue);
+    font-weight: bold;
+}
+
+.nameXp {
+    color: #000;
+}
+
+.currentUser {
+    background: var(--ranking-user) !important;
+}
+
+.userOver6 {
+    width: 100%;
+    height: 20%;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.dots {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.dots span{
+    width: 0.4rem;
+    height: 0.4rem;
+    background: #666;
+    border-radius: 10rem;
+    margin-bottom: 0.5%;
+}
+
+.over6Card {
+    display: flex;
+    width: 50%;
+    height: 70%;
+    align-items: center;
+    background: white;
+}
+
+.labels {
+    font: 500 0.85rem 'Roboto', sans-serif;
+    color: #737380;
+    opacity: 0.5;
+    width: 50%;
+}
+
+.labelPosition {
+    padding-right: 5%;
+}
+
+.labelStudent {
+    padding-right: 61%;
+}
+
+.dark {
+    background: #161a1d !important;
+}
+
+.darkText {
+    color: white !important;
+    opacity: 1 !important;
+}
+
+.switchButton {
+    position: absolute;
+    top: 2%;
+    right: 4.5%;
+}
+
+.darkCard {
+    background: #010101 !important;
+}
+
+.darkCard .position, .darkCard .userInfo span, .darkCard .nameXp {
+    color: white !important;
+}
+
+.darkCard .userImage {
+    border: 0.15rem solid var(--blue) !important;
+}
+
+.darkCard .userInfo p {
+    color: var(--blue) !important;
+}
+
+
+.darkCard.currentUser {
+    background: var(--ranking-user) !important;
+}
+
+.darkSidebar div > ul > div:nth-child(3) > li {
+    color: var(--white);
+    opacity: 1;
+}
+
+.arrowToSchool {
+    position: absolute;
+    top: 50%;
+    left: 90%;
+    transform: scaleX(-1);
+}
+
+.arrowToSchool > svg {
+    width: 1.7rem;
+    height: 1.7rem;
+    color: var(--blue);
+}
+
+.arrowToSchool > svg:hover {
+    cursor: pointer;
+}
+
+.arrowToStudents {
+    position: absolute;
+    top: 50%;
+    left: 13%;
+}
+
+.arrowToStudents > svg {
+    width: 1.7rem;
+    height: 1.7rem;
+    color: var(--blue);
+}
+
+.arrowToStudents > svg:hover {
+    cursor: pointer;
+}

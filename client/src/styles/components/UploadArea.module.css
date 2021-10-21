@@ -1,0 +1,68 @@
+.uploadContainer {
+    width: 52vw;
+    height: 50vh;
+    border: 2px dashed var(--blue);
+    border-radius: 20px;
+}
+
+.uploadContainer > div {
+    width: 100%;
+    height: 100%;
+}
+
+.uploadContainer > div label {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background: var(--blue-light);
+    cursor: pointer;
+    border-radius: 20px;
+}
+
+.uploadContainer label input {
+    display: none;
+}
+
+.uploadContainer label:hover {
+    background: var(--blue-medium);
+    transition: 0.3s;
+}
+
+.uploadIcon, .uploadTitle {
+    color: var(--title);
+}
+
+.uploadIcon {
+    width: 12%;
+    height: 12%;
+    margin-bottom: 15px;
+}
+
+.uploadTitle, .uploadTip {
+    font-family: 'Roboto', sans-serif;
+}
+
+.uploadTitle {
+    font-weight: 400;
+    margin-bottom: 5px;
+}
+
+.uploadTip {
+    font-weight: 400;
+    font-size: 0.8rem;
+}
+
+.darkTitle {
+    color: white !important;
+}
+
+.darkTip {
+    color: #bebebe !important;
+}
+
+.darkIcon {
+    color: #bebebe !important;
+}
