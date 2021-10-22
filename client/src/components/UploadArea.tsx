@@ -58,7 +58,7 @@ export default function UploadArea() {
                         .then(res => {
                             contextUserData.setText(res.data.text);
 
-                            if(isSaveChecked) {
+                            if(isSaveChecked && bookName !== "") {
                                 contextUserData.setNameText(bookName)
                             } else {
                                 contextUserData.setNameText(accepedFiles[0].name)
@@ -129,7 +129,7 @@ export default function UploadArea() {
                 
                 <label id={styles.nameLabel} htmlFor="fileName" style={{ display: isSaveChecked ? "" : "none"}}>
                     Name of this file:
-                    <input type="text" name="fileName" value={bookName} onChange={(e) => setBookName(e.target.value)}/>
+                    <input type="text" name="fileName" value={bookName} maxLength={45} onChange={(e) => setBookName(e.target.value)}/>
                 </label>
 
                 <label id={styles.categoryLabel} htmlFor="category" style={{ display: isSaveChecked ? "" : "none"}}>

@@ -114,6 +114,7 @@ routes.post("/api/user/data", (req, res) => {
 	} else {
 
 		let ranking;
+		let livros;
 		db.query(
 			'SELECT COUNT(*) AS "ranking" FROM usuarios WHERE xp >= (SELECT xp FROM usuarios WHERE token = ?)',
 			req.body.token,
@@ -127,8 +128,28 @@ routes.post("/api/user/data", (req, res) => {
 			}
 		);
 
-		let query =
-			"SELECT nome, email, senha, uf, cidade, imagem, xp, tp_usuario, (SELECT nm_escola FROM escolas WHERE id_escola = usuarios.id_escola) as 'id_escola', (SELECT ds_descricao FROM emblemas WHERE usuarios.id_emblema = id_emblema) as 'ds_emblema', id_emblema FROM usuarios WHERE token = ?";
+		db.query(`
+		SELECT *, (SELECT nm_categoria FROM categorias WHERE id_categoria=anexos_usuario.id_categoria) as 'nm_categoria'
+		FROM anexos_usuario 
+		WHERE id_usuario = (SELECT id FROM usuarios WHERE token = ?);
+		`,
+			req.body.token,
+			function (error, results, fields) {
+				if (error) {
+					res.send("[ERROR]");
+					console.log(error);
+				} else {
+					livros = results;
+				}
+			}
+		);
+
+		let query = `
+		SELECT nome, email, senha, uf, cidade, imagem, xp, tp_usuario, 
+		(SELECT nm_escola FROM escolas WHERE id_escola = usuarios.id_escola) as 'id_escola', 
+		(SELECT ds_descricao FROM emblemas WHERE usuarios.id_emblema = id_emblema) as 'ds_emblema', id_emblema 
+		FROM usuarios 
+		WHERE token = ?`;
 
 		db.query(query, req.body.token, function (error, results, fields) {
 			if (error) {
@@ -158,7 +179,8 @@ routes.post("/api/user/data", (req, res) => {
 						emblema: results[0].id_emblema,
 						ds_emblema: results[0].ds_emblema,
 						ranking: ranking,
-						tp_usuario: results[0].tp_usuario
+						tp_usuario: results[0].tp_usuario,
+						livros: livros
 					});
 				}
 			}

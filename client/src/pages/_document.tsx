@@ -13,6 +13,27 @@ export default class MyDocument extends Document {
                 <body>
                     <Main />
                     <NextScript />
+                    <style jsx global>{`
+                        #__next {
+                            overflow-x: hidden !important;
+                        }
+
+                        #__next::-webkit-scrollbar {
+                            width: 1vw !important;
+                        }
+                        
+                        #__next::-webkit-scrollbar-track {
+                            background: #a0a6e0 !important;
+                            border-bottom-left-radius: 10px !important;
+                            border-bottom-right-radius: 10px !important;
+                        }
+                        
+                        #__next::-webkit-scrollbar-thumb {
+                            background: var(--blue) !important; 
+                            border-bottom-left-radius: 10px !important;
+                            border-bottom-right-radius: 10px !important;
+                        }
+                    `}</style>
                 </body>
             </Html>
         );

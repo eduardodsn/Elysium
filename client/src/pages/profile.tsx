@@ -7,7 +7,7 @@ import Cookie from "js-cookie";
 import { useRouter } from "next/router";
 import styles from '../styles/components/Profile.module.css'
 import Sidebar from '../components/Sidebar';
-import { BiHide, BiShow, BiUpload } from 'react-icons/bi';
+import { BiHide, BiShow, BiUpload, BiX } from 'react-icons/bi';
 import toast, { Toaster } from 'react-hot-toast';
 import { GetServerSideProps } from 'next';
 
@@ -23,7 +23,17 @@ interface IUserData{
     emblema: number,
     ds_emblema: string,
     ranking: number,
-    tp_usuario: number
+    tp_usuario: number,
+    livros: []
+}
+
+interface ILivro {
+    id_anexo: number,
+    titulo_anexo: string,
+    anexo: string,
+    id_categoria: number,
+    id_usuario: number,
+    nm_categoria: string
 }
 
 const statesUrl = 'https://servicodados.ibge.gov.br/api/v1/localidades/estados'
@@ -205,7 +215,7 @@ export default function Profile(props) {
 
 
     return (
-    <div className={`${styles.profilePage} ${userData.isSwitchChecked ? styles.dark : ""}`}>
+    <div className={`${styles.profilePage} ${userData.isSwitchChecked ? styles.dark : ""}`} style={{ height: info?.livros.length === 0 ? "100vh" : "auto"}}>
         
         <Head>
             <title>Profile | Elysium</title>
@@ -285,7 +295,21 @@ export default function Profile(props) {
                 </div>
             </div>
             <div className={styles.divisor}></div>
+            
+            <div className={`${styles.booksArea} ${userData.isSwitchChecked ? styles.darkText : ""}`}>
+                {info?.livros.length === 0 ? "" : <span>Books</span>}
 
+                {info?.livros.length === 0 ? "" : 
+                    info?.livros.map((livro: ILivro, id) => {
+                        return (<div className={`${styles.bookList} ${userData.isSwitchChecked ? styles.darkBookList : ""}`}>
+                                    <span title="Click to read the book!">{livro.titulo_anexo}</span>
+                                    <BiX title="Click to delete the book!" className={styles.deleteBook}/>
+                                </div>)
+                    })
+                }
+               
+            </div>
+            {info?.livros.length === 0 ? "" : <div className={styles.divisor}></div>}
             <div className={styles.formContainer}>
             <form>
                 <div>
