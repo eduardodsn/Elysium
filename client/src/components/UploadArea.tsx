@@ -34,7 +34,7 @@ export default function UploadArea() {
         accept: "application/pdf",
         onDrop: async (accepedFiles) => {
             toast('Wait a second...', {
-                duration: 3000,
+                duration: 500,
                 icon: '🕓',
             })
             if(accepedFiles[0] !== undefined) {
@@ -46,7 +46,6 @@ export default function UploadArea() {
                     data.append('token', Cookie.get('token'))
 
                     if(isSaveChecked) {
-                        console.log(String(selectedCategory))
                         data.append('isSalvar', "true")
                         data.append('bookName', bookName)
                         data.append('idCategoria', String(selectedCategory))
@@ -57,6 +56,9 @@ export default function UploadArea() {
                     axios.post('http://localhost:3001/api/books/create', data)
                         .then(res => {
                             contextUserData.setText(res.data.text);
+                            if(res.data.status !== "") {
+                                toast.error("Book not saved! You already have 5 books, please delete one!")
+                            }
 
                             if(isSaveChecked && bookName !== "") {
                                 contextUserData.setNameText(bookName)
@@ -68,8 +70,11 @@ export default function UploadArea() {
                                 expires: addHours(new Date(), 2),
                                 secure: process.env.NODE_ENV === 'production'
                             })
-    
-                            router.push('/reading')
+                            
+                            setTimeout(() => {
+                                router.push('/reading')
+                            }, 5000);
+
                         }).catch(e => {
                             toast.error("Something went wrong, please try again! 🥺")
                         });

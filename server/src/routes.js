@@ -92,16 +92,24 @@ routes.post("/api/user/login", (req, res) => {
 });
 
 routes.post("/api/user/delete", (req, res) => {
-	if (!req.body.email || req.body.email === undefined) {
+	if (!req.body.token || req.body.token === undefined) {
 		res.send("[ERROR] Empty body!");
 	} else {
-		let query = "DELETE FROM usuarios WHERE email = ?";
+		let query = "DELETE FROM usuarios WHERE token = ?";
 
-		db.query(query, req.body.email, function (error, results, fields) {
+		db.query("SELECT id FROM usuarios WHERE token = ?", req.body.token, function (error, results, fields) {
 			if (error) {
 				res.send("[ERROR]");
 				console.log(error);
 			} else {
+				if(results[0].id !== undefined) {
+					// Remove pasta do usuario da aplicação
+					let dir = path.join(__dirname, "..", "tmp", "uploads", String(results[0].id));
+					if (fs.existsSync(dir)) {
+						fs.rmdirSync(dir, {recursive: true})
+					}
+					db.query(query, req.body.token);
+				}
 				res.send("[OK]");
 			}
 		});
@@ -291,7 +299,7 @@ routes.get("/api/schools/ranking", async (req, res) => {
 
 // Criar livro para salvar no perfil ou apenas para leitura
 routes.post("/api/books/create", multer(config).single("file"), (req, res) => {
-	let diretorioUploads = path.resolve(__dirname, "..", "tmp", "uploads");
+	let status = "";
 
 	if(String(req.body.isSalvar) === "true") {
 		let id_categoria = parseInt(req.body.idCategoria);
@@ -312,17 +320,22 @@ routes.post("/api/books/create", multer(config).single("file"), (req, res) => {
 					let antigoDest = path.join(__dirname, '..', 'tmp', req.file.filename);
 					let novoDest = path.join(__dirname, '..', 'tmp', 'uploads', id_usuario, req.file.filename);
 
-					// Move o arquivo para a pasta do usuario
-					fs.readFile(antigoDest, function(err, data) {
-						fs.writeFile(novoDest, data, function(err) {
-							fs.unlink(antigoDest, function(){
-								if(err) throw err;
+					// Salva apenas 5 livros por usuario
+					fs.readdir(path.join(__dirname, '..', 'tmp', 'uploads', id_usuario), async (err, files) => {
+						if(files.length < 5) {
+							// Move o arquivo para a pasta do usuario
+							fs.readFile(antigoDest, function(err, data) {
+								fs.writeFile(novoDest, data, function(err) {
+									getBookText(novoDest);
+								}); 
 							});
-							getBookText(novoDest);
-						}); 
-					});
 
-					db.query("INSERT INTO anexos_usuario (titulo_anexo, anexo, id_categoria, id_usuario) VALUES (?, ?, ?, ?)", [titulo_anexo, req.file.filename, id_categoria, id_usuario]);
+							db.query("INSERT INTO anexos_usuario (titulo_anexo, anexo, id_categoria, id_usuario) VALUES (?, ?, ?, ?)", [titulo_anexo, req.file.filename, id_categoria, id_usuario]);
+						} else {
+							getBookText(antigoDest);
+							status = "[FULL FOLDER]"
+						}
+					});
 				}
 			}
 		);
@@ -332,12 +345,106 @@ routes.post("/api/books/create", multer(config).single("file"), (req, res) => {
 	}
 
 	// Extrai o texto e retorna o conteudo
-	function getBookText(path) {
-		pdfUtil.pdfToText(path, (err, data) => {
-			return res.json({ text: data });
+	function getBookText(filePath) {
+		let tmpPath = path.join(__dirname, "..", "tmp");
+
+		pdfUtil.pdfToText(filePath, (err, data) => {
+			fs.readdir(tmpPath, (err, files) => {
+				if (err) {
+					throw err;
+				}
+				
+				// Deleta os pdfs da pasta tmp
+				files.forEach((file) => { 
+				  if (file.split('.').pop().toLowerCase() == 'pdf') {
+					fs.unlink(tmpPath + "/" + file, () => {});
+				  }
+				});
+			});
+
+			res.json({
+				text: data,
+				status: status
+			});
 		});
 	}
 });
+
+// Deletar um livro da pasta do usuário
+routes.post("/api/book/delete", async (req, res) => {
+	if (req.body === {}) {
+		res.status(500).send("[ERROR]");
+	}
+
+	let token = req.body.token;
+	let nome_livro = req.body.nome_livro;
+
+	db.query("SELECT id FROM usuarios WHERE token = ?", token, (error, results, fields) => {
+		if(error) {
+			res.send({ status: '[ERROR]' })
+			console.log(error)
+		} else {
+			deleteBook(String(results[0].id))
+		}
+	});
+
+
+	function deleteBook(id_usuario) {
+		id_usuario = String(id_usuario)
+
+		db.query("DELETE FROM anexos_usuario WHERE anexo = ? AND id_usuario = ?", [nome_livro, id_usuario], (error, results, fields) => {
+			if(error) {
+				res.send({ status: '[ERROR]' })
+				console.log(error)
+			} else {
+				fs.unlink(path.join(__dirname, "..", "tmp", "uploads", String(id_usuario), nome_livro), (err) => {
+					if(err) {
+						console.log(err)
+					} else {
+						res.send({ status: "[OK]" });
+					}
+				})
+			}
+		});
+	}
+});
+
+routes.post("/api/book/extract", async (req, res) => {
+	if (req.body === {}) {
+		res.status(500).send("[ERROR]");
+	}
+
+	let token = req.body.token;
+	let nome_livro = req.body.nome_livro;
+
+	db.query("SELECT id FROM usuarios WHERE token = ?", token, (error, results, fields) => {
+		if(error) {
+			res.send({ status: '[ERROR]' })
+			console.log(error)
+		} else {
+			extractBook(String(results[0].id))
+		}
+	});
+
+
+	function extractBook(id_usuario) {
+		id_usuario = String(id_usuario)
+
+		pdfUtil.pdfToText(path.join(__dirname, "..", "tmp", "uploads", id_usuario, nome_livro), (err, data) => {
+			if(err) {
+				res.json({
+					text: ""
+				});
+			} else {
+				res.json({
+					text: data
+				});
+			}
+		});
+	}
+});
+
+
 
 routes.post("/api/words/read", async (req, res) => {
 	if (req.body == {}) {

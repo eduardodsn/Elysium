@@ -10,6 +10,7 @@ import Sidebar from '../components/Sidebar';
 import { BiHide, BiShow, BiUpload, BiX } from 'react-icons/bi';
 import toast, { Toaster } from 'react-hot-toast';
 import { GetServerSideProps } from 'next';
+import { addHours } from 'date-fns';
 
 
 interface IUserData{
@@ -200,10 +201,11 @@ export default function Profile(props) {
     }
 
     function deleteUser() {
-        let email = emailRef.current.value;
-        if(email !== undefined && email !== "") {
+        let token = Cookie.get('token');
+
+        if(token !== undefined && token !== "") {
             axios.post(`${process.env.NEXT_PUBLIC_LOCAL_API}/api/user/delete`, {
-                email: email
+                token: token
             }).then(res => {
                 if(res.data == "[OK]") {
                     Cookie.remove('token');
@@ -213,6 +215,58 @@ export default function Profile(props) {
         }
     }
 
+    function handleReadBook(e) {
+        let titulo_anexo = e.target.value.split("-:-")[0];
+        let anexo = e.target.value.split("-:-")[1];
+        let token = Cookie.get("token");
+
+        if(anexo !== "") {
+            axios.post('http://localhost:3001/api/book/extract', {
+                nome_livro: anexo,
+                token: token
+            }).then((res) => {
+                if(res.data.text !== "") {
+                    userData.setText(res.data.text);
+                    userData.setNameText(titulo_anexo)
+
+                    Cookie.set('upload', 'true', {
+                        expires: addHours(new Date(), 2),
+                        secure: process.env.NODE_ENV === 'production'
+                    })
+                    
+                    router.push('/reading')
+                } else {
+                    toast.error("Error on reading book, try again!");
+                }
+            })
+        }
+    }
+
+    function handleDeleteBook(e) {
+        let targetBook = e.value;
+        let token = Cookie.get("token");
+
+        if(targetBook !== "") {
+            axios.post('http://localhost:3001/api/book/delete', {
+                nome_livro: targetBook,
+                token: token
+            }).then((res) => {
+                if(res.data.status === "[OK]") {
+                    toast.success("Book deleted successfully!")
+                    axios.post('http://localhost:3001/api/user/data', {
+                        token: token
+                    }).then(res => {
+                        setCurrentState(res.data.state)
+                        setInfo(res.data)
+                        setSchoolText(res.data.school)
+                        setCityRef(res.data.city)
+                    })
+                } else {
+                    toast.error("Error, try again!");
+                }
+            })
+        }
+    }
 
     return (
     <div className={`${styles.profilePage} ${userData.isSwitchChecked ? styles.dark : ""}`} style={{ height: info?.livros.length === 0 ? "100vh" : "auto"}}>
@@ -301,9 +355,9 @@ export default function Profile(props) {
 
                 {info?.livros.length === 0 ? "" : 
                     info?.livros.map((livro: ILivro, id) => {
-                        return (<div className={`${styles.bookList} ${userData.isSwitchChecked ? styles.darkBookList : ""}`}>
-                                    <span title="Click to read the book!">{livro.titulo_anexo}</span>
-                                    <BiX title="Click to delete the book!" className={styles.deleteBook}/>
+                        return (<div key={id} className={`${styles.bookList} ${userData.isSwitchChecked ? styles.darkBookList : ""}`}>
+                                    <button className={styles.readBook} title="Click to read the book!" onClick={(e) => handleReadBook(e)} value={`${livro.titulo_anexo}-:-${livro.anexo}`}>{livro.titulo_anexo} <h5>({livro.nm_categoria})</h5></button>
+                                    <button title="Click to delete the book!" value={livro.anexo}><BiX className={styles.deleteBook} onClick={(e) => handleDeleteBook(e.currentTarget.parentNode)}/></button>
                                 </div>)
                     })
                 }
