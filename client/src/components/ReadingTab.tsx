@@ -1,5 +1,4 @@
 import Cookie from "js-cookie";
-import api from "../pages/api/api";
 import { useRouter } from "next/router";
 import { useData } from "../contexts/UserData";
 import React, { useEffect, useState } from "react";
@@ -86,7 +85,7 @@ export default function ReadingTab() {
 		setComboWord(word);
 
     // puxa as palavras favoritas do banco
-		axios.post('http://localhost:3001/api/words/favorites/read', {
+		axios.post(`${process.env.API_URL}/api/words/favorites/read`, {
       token: Cookie.get('token')
     })
 		.then(res => {
@@ -100,7 +99,7 @@ export default function ReadingTab() {
 			contains == true ? setIsFavorite(true) : setIsFavorite(false)
 		})
 
-		const promise = axios.post("http://localhost:3001/api/words/read", { word: word }).then((res) => {
+		const promise = axios.post(`${process.env.API_URL}/api/words/read`, { word: word }).then((res) => {
 			setWordMeaning(res.data.en.meaning);
 			setWordType(res.data.en.type);
 			setWordPronounceLink(res.data.en.link);
@@ -149,7 +148,7 @@ export default function ReadingTab() {
   }
 
   async function saveWord(operation) {
-    let res = axios.post('http://localhost:3001/api/words/favorites/save', {
+    let res = axios.post(`${process.env.API_URL}/api/words/favorites/save`, {
       word: wordClicked,
       token: Cookie.get('token'),
       operation: operation

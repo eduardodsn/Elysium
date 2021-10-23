@@ -164,7 +164,7 @@ export default function Ranking(props) {
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     let users;
 
-    await axios.get('http://localhost:3001/api/users')
+    await axios.get(`${process.env.API_URL}/api/users`)
     .then(res => users = res.data)
 
     const { token } = req.cookies;

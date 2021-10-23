@@ -40,7 +40,7 @@ export default function CreateQuestions() {
 		e.preventDefault();
 
 		if(questionId !== "") {
-			axios.post('http://localhost:3001/api/question/search', {
+			axios.post(`${process.env.API_URL}/api/question/search`, {
 				id: questionId
 			}).then((res) => {
 				if(res.data.length !== 0) {
@@ -70,7 +70,7 @@ export default function CreateQuestions() {
 		e.preventDefault()
 
 		if(questionId !== "") {
-			axios.post('http://localhost:3001/api/question/delete', {
+			axios.post(`${process.env.API_URL}/api/question/delete`, {
 				id: questionId
 			}).then((res) => {
 				if(res.data.status === "[OK]") {
@@ -91,7 +91,7 @@ export default function CreateQuestions() {
 
 			let options = [altA, altB, altC, altD, altE]
 			
-			axios.post('http://localhost:3001/api/question/create', {
+			axios.post(`${process.env.API_URL}/api/question/create`, {
 				token: Cookie.get('token'),
 				ds_questao: questionDs,
 				opcoes: options,
@@ -120,7 +120,7 @@ export default function CreateQuestions() {
 		
 			let options = [altA, altB, altC, altD, altE]
 
-			axios.post('http://localhost:3001/api/question/update', {
+			axios.post(`${process.env.API_URL}/api/question/update`, {
 				ds_questao: questionDs,
 				antiga_ds_questao: oldQuestionDs,
 				opcoes: options,
@@ -254,7 +254,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 			}
 		}
 	} else {
-		let res = await axios.post("http://localhost:3001/api/user/data", {
+		let res = await axios.post(`${process.env.API_URL}/api/user/data`, {
 			token: token,
 		});
 

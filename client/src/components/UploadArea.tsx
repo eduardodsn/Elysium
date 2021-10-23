@@ -24,7 +24,7 @@ export default function UploadArea() {
     }
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/categories/read')
+        axios.get(`${process.env.API_URL}/api/categories/read`)
         .then((res) => {
             setCategories(res.data.data)
         })
@@ -38,9 +38,14 @@ export default function UploadArea() {
                 icon: '🕓',
             })
             if(accepedFiles[0] !== undefined) {
-                if(accepedFiles[0].size > 5000000) {
+                if(accepedFiles[0].size > (5 * 1024 * 1024)) {
                     toast.error("File too large, try another one! 🥺")
                 } else {
+                    if(isSaveChecked && (selectedCategory === -1 || bookName === "")) {
+                        toast.error("Fill the book name and select the category to save it!")
+                        return;
+                    }
+
                     const data = new FormData();
                     data.append('file', accepedFiles[0], accepedFiles[0].name);
                     data.append('token', Cookie.get('token'))
@@ -53,7 +58,7 @@ export default function UploadArea() {
                         data.append('isSalvar', "false")
                     }
 
-                    axios.post('http://localhost:3001/api/books/create', data)
+                    axios.post(`${process.env.API_URL}/api/books/create`, data)
                         .then(res => {
                             contextUserData.setText(res.data.text);
                             if(res.data.status !== "") {

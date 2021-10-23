@@ -27,7 +27,7 @@ export default function questions(props) {
 	const incorrectAnswerXp = 25;
 
 	const getQuestions = async () => {
-		let res = await axios.post("http://localhost:3001/api/questions/read", {
+		let res = await axios.post(`${process.env.API_URL}/api/questions/read`, {
 			token: Cookie.get('token'),
 		});
 		setUserQuestions(res.data);
@@ -77,7 +77,7 @@ export default function questions(props) {
 	}, [userQuestions, currentQuestionId]);
 
 	function addQuestionHistory(xp, id_questao) {
-		axios.post('http://localhost:3001/api/questions/history', {
+		axios.post(`${process.env.API_URL}/api/questions/history`, {
 			id_questao: id_questao,
 			xp: xp,
 			token: Cookie.get('token')
@@ -340,7 +340,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 			},
 		};
 	} else {
-		let res = await axios.post("http://localhost:3001/api/user/data", {
+		let res = await axios.post(`${process.env.API_URL}/api/user/data`, {
 			token: token,
 		});
 
@@ -355,7 +355,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 		}
 	}
 
-	let res = await axios.post("http://localhost:3001/api/questions/read", {
+	let res = await axios.post(`${process.env.API_URL}/api/questions/read`, {
 		token: token,
 	});
 

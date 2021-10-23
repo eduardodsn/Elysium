@@ -36,7 +36,7 @@ export default function SignUpForm() {
     useEffect(() => {
         const getSchools = async () => {
           if(currentState !== "" && cityRef !== "") {
-            axios.post('http://localhost:3001/api/schools/read', {
+            axios.post(`${process.env.API_URL}/api/schools/read`, {
                 estado: currentState,
                 cidade: cityRef
             }).then(res => {
@@ -86,7 +86,7 @@ export default function SignUpForm() {
 
     function checkFieldsValid() {
         if(nameRef.current.value !== "" && emailRef.current.value !== "" && passRef.current.value !== "" && profilePhoto !== ""
-        && stateRef !== "" && cityRef !== "" && String(stateRef) !== "State" && String(cityRef) !== "City") {
+        && stateRef !== "" && cityRef !== "" && String(stateRef) !== "State" && String(cityRef) !== "City" && !(passRef.current.value.length < 6)) {
             return true;
         } else {
             return false;
@@ -126,14 +126,18 @@ export default function SignUpForm() {
 
     function handleSubmit() {
         if(!checkFieldsValid()) {
-            toast.error("Please, fill out all the fields! 🤖")
+            if(passRef.current.value.length < 6) {
+                toast.error("Password must be at least 6 characters long!")
+            } else {
+                toast.error("Please, fill out all the fields! 🤖")
+            }
         } else {
             let escola = getSelectedSchool();
             let tp_user = getUserType();
 
             if(escola !== "" && tp_user !== -1) {
                 toast.loading("Creating account...", {duration: 800})
-                axios.post('http://localhost:3001/api/user/create', {
+                axios.post(`${process.env.API_URL}/api/user/create`, {
                     name: nameRef.current.value,
                     email: emailRef.current.value,
                     password: passRef.current.value,

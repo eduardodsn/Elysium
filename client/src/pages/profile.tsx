@@ -70,7 +70,7 @@ export default function Profile(props) {
     useEffect(() => {
         const getSchools = async () => {
             if(currentState !== "" && cityRef !== "" && cityRef !== "City" && currentState !== undefined) {
-              await axios.post('http://localhost:3001/api/schools/read', {
+              await axios.post(`${process.env.API_URL}/api/schools/read`, {
                   estado: currentState || info?.state,
                   cidade: cityRef || info?.city
               }).then(res => {
@@ -143,7 +143,7 @@ export default function Profile(props) {
             let city = cityRef;
             let escola = getSelectedSchool();
 
-            axios.post('http://localhost:3001/api/user/update', {
+            axios.post(`${process.env.API_URL}/api/user/update`, {
                 token: Cookie.get('token'),
                 name: name,
                 email: email,
@@ -204,7 +204,7 @@ export default function Profile(props) {
         let token = Cookie.get('token');
 
         if(token !== undefined && token !== "") {
-            axios.post(`${process.env.NEXT_PUBLIC_LOCAL_API}/api/user/delete`, {
+            axios.post(`${process.env.API_URL}/api/user/delete`, {
                 token: token
             }).then(res => {
                 if(res.data == "[OK]") {
@@ -221,7 +221,7 @@ export default function Profile(props) {
         let token = Cookie.get("token");
 
         if(anexo !== "") {
-            axios.post('http://localhost:3001/api/book/extract', {
+            axios.post(`${process.env.API_URL}/api/book/extract`, {
                 nome_livro: anexo,
                 token: token
             }).then((res) => {
@@ -247,13 +247,13 @@ export default function Profile(props) {
         let token = Cookie.get("token");
 
         if(targetBook !== "") {
-            axios.post('http://localhost:3001/api/book/delete', {
+            axios.post(`${process.env.API_URL}/api/book/delete`, {
                 nome_livro: targetBook,
                 token: token
             }).then((res) => {
                 if(res.data.status === "[OK]") {
                     toast.success("Book deleted successfully!")
-                    axios.post('http://localhost:3001/api/user/data', {
+                    axios.post(`${process.env.API_URL}/api/user/data`, {
                         token: token
                     }).then(res => {
                         setCurrentState(res.data.state)
@@ -474,7 +474,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
       };
     }
   
-    let res = await axios.post('http://localhost:3001/api/user/data', {
+    let res = await axios.post(`${process.env.API_URL}/api/user/data`, {
       token: token
     });
 

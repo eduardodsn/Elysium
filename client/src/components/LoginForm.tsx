@@ -29,7 +29,7 @@ export default function loginForm() {
             })
 
             let token = uuidv4();
-            let res = axios.post('http://localhost:3001/api/user/login', {
+            let res = axios.post(`${process.env.API_URL}/api/user/login`, {
                 email: email,
                 password: password,
                 token: token
