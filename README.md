@@ -13,7 +13,9 @@ Dentre as principais funcionalidades da aplicação, temos:
 - <b>Todas as palavras clicáveis:</b> o texto selecionado pelo usuário tem todas as suas palavras clicáveis, permitindo que o usuário clique em uma determinada palavra e o sistema traga suas informações, como transcrição fonética, significado, classe gramatical e pronúncia, tanto em Inglês quanto em Português.
 - <b>Salvar palavras favoritas no dicionário pessoal:</b> onde o estudante pode favoritar as palavras que achou mais interessantes e vê-las no seu dicionário pessoal.
 - <b>Banco de questões:</b> página na qual o aluno pode praticar seu conhecimento respondendo às perguntas de Inglês e ganhando pontos de experiência.
+- <b>Adicionar e editar questões:</b> página na qual o professor poderá criar e editar as questões.
 - <b>Ranking dos alunos:</b> página em que mostra os melhores alunos de acordo com seu nível de experiência.
+- <b>Ranking de escolas:</b>  página em que mostra as melhores escolas de acordo com o nível de experiência dos alunos.
 - <b>Dicionário pessoal:</b> onde o usuário pode consultar as palavras que salvou durante a leitura de um livro.
 
 
