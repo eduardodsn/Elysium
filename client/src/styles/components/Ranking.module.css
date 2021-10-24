@@ -236,12 +236,29 @@
 
 .schoolInfo {
     width: 70% !important;
+    padding-left: 2.3%;
 }
 
 .labelPositionSchool {
-    padding-right: 5%;
+    padding-right: 20%;
 }
 
 .labelSchool {
-    padding-right: 64%;
+    padding-right: 88%;
+}
+
+.position1 {
+    padding: 0 5% 0 3% !important;
+    font: bold 1.2rem 'Roboto', sans-serif;
+}
+
+.emblemaCombo {
+    width: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card1 {
+    width: 70% !important;
 }

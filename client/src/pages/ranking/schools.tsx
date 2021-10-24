@@ -73,12 +73,15 @@ export default function Ranking(props) {
         </div>
         {topFive.map((school, id) => (
           <div
-            className={`${styles.card} ${
+            className={`${styles.card} ${styles.card1} ${
               contextUserData.isSwitchChecked ? styles.darkCard : ""
             }`}
             key={id}
           >
-            <span className={styles.position}>{id + 1}</span>
+            <span className={`${styles.position} ${styles.position1}`}>{id + 1}</span>
+            <div className={styles.emblemaCombo}>
+              <img src={id !== undefined ? `../assets/escolas/${id+1}.png` : '../assets/escolas/1.png'} alt="" style={{ width: id+1 === 2 ? '3.6rem' : '2.8rem' }} className={styles.emblemaImg}/>   
+            </div>
             <div className={styles.schoolInfo}>
               <div>
                 <p>{school.nm_escola}</p>
