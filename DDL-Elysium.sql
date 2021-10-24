@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS usuarios
     uf         char(2)          NOT NULL,
     cidade     VARCHAR(150)     NOT NULL,
     imagem     LONG             NOT NULL,
-    xp         bigint DEFAULT 0 NOT NULL,
+    xp         BIGINT DEFAULT 0 NOT NULL,
     id_escola  INT              NOT NULL,
     id_emblema INT              NULL,
     token      VARCHAR(255)     NULL,
