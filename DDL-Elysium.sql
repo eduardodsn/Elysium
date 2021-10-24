@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS usuarios
     senha      VARCHAR(255)     NOT NULL,
     uf         char(2)          NOT NULL,
     cidade     VARCHAR(150)     NOT NULL,
-    imagem     BLOB             NOT NULL,
+    imagem     LONG             NOT NULL,
     xp         bigint DEFAULT 0 NOT NULL,
     id_escola  INT              NOT NULL,
     id_emblema INT              NULL,
