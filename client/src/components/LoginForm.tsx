@@ -21,6 +21,7 @@ export default function loginForm() {
     const [password, setPassword] = useState("")
 
     async function handleLogin() {
+        Cookie.remove('token');
         
         if(email != "" && password != "") {
             toast('Wait a second...', {

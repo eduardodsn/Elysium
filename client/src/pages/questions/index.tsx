@@ -111,7 +111,7 @@ export default function questions(props) {
 	}
 
 	function handleFinish() {
-		setUserQuestions(undefined);
+		// setUserQuestions(undefined);
 		if (currentRightAnswer != "") {
 			if (xpSum > 0) {
 				toast(`Good job. You got ${xpSum} xp!`, {

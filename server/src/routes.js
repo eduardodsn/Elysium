@@ -12,6 +12,7 @@ require("dotenv").config({ path: path.resolve(__dirname, "..", ".env") });
 let db = require("./db");
 
 
+// Criar um novo usuario
 routes.post("/api/user/create", (req, res) => {
 	if (!req.body.name) {
 		res.status(500).send("[ERROR] Empty body!");
@@ -29,8 +30,8 @@ routes.post("/api/user/create", (req, res) => {
 
 		let image = Buffer.from(profilePhoto, "base64");
 
-		let query =
-			"INSERT INTO usuarios (nome, email, senha, uf, cidade, imagem, xp, id_escola, id_emblema, tp_usuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		let query = `INSERT INTO usuarios (nome, email, senha, uf, cidade, imagem, xp, id_escola, id_emblema, tp_usuario) 
+					 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
 		db.query(
 			query,
@@ -48,6 +49,7 @@ routes.post("/api/user/create", (req, res) => {
 			],
 			function (error, results, fields) {
 				if (error) {
+					db.rollback(() => ({}));
 					if (String(error.sqlMessage).includes("Duplicate entry")) {
 						res.send({ status: "[ERROR - EMAIL]" });
 					} else {
@@ -62,6 +64,7 @@ routes.post("/api/user/create", (req, res) => {
 	}
 });
 
+// Realizar login
 routes.post("/api/user/login", (req, res) => {
 	if (!req.body.email) {
 		res.send("[ERROR] Empty body!");
@@ -79,7 +82,14 @@ routes.post("/api/user/login", (req, res) => {
 					db.query("UPDATE usuarios SET token = ? WHERE email = ?", [
 						req.body.token,
 						req.body.email,
-					]);
+					], (err, updateResult, updateFields) => {
+						if (err) {
+							db.rollback(() => ({}));
+							res.send("[ERROR]");
+							console.log(error);
+							return
+						}
+					});
 					res.send("[OK]");
 				} else {
 					res.send("[PASSWORD INCORRECT]");
@@ -91,8 +101,9 @@ routes.post("/api/user/login", (req, res) => {
 	}
 });
 
+// Remover usuario do banco
 routes.post("/api/user/delete", (req, res) => {
-	if (!req.body.token || req.body.token === undefined) {
+	if (req.body.token === undefined) {
 		res.send("[ERROR] Empty body!");
 	} else {
 		let query = "DELETE FROM usuarios WHERE token = ?";
@@ -101,21 +112,27 @@ routes.post("/api/user/delete", (req, res) => {
 			if (error) {
 				res.send("[ERROR]");
 				console.log(error);
-			} else {
-				if(results[0].id !== undefined) {
-					// Remove pasta do usuario da aplicação
-					let dir = path.join(__dirname, "..", "tmp", "uploads", String(results[0].id));
-					if (fs.existsSync(dir)) {
-						fs.rmdirSync(dir, {recursive: true})
-					}
-					db.query(query, req.body.token);
+			} else if(results[0].id !== undefined) {
+				// Remove pasta do usuario da aplicacao
+				let dir = path.join(__dirname, "..", "tmp", "uploads", String(results[0].id));
+
+				if (fs.existsSync(dir)) {
+					fs.rmdirSync(dir, {recursive: true})
 				}
+
+				db.query(query, req.body.token, (err, deleteResult, deleteFields) => {
+					if (err) db.rollback(() => ({}));
+					res.send("[ERROR]");
+					console.log(error);
+					return
+				});
 				res.send("[OK]");
 			}
 		});
 	}
 });
 
+// Traz todas as informacoes do usuario para popular tela de perfil
 routes.post("/api/user/data", (req, res) => {
 	if (!req.body.token) {
 		res.send("[ERROR] Empty body!");
@@ -196,6 +213,7 @@ routes.post("/api/user/data", (req, res) => {
 	}
 });
 
+// Atualiza informacoes usuario
 routes.post("/api/user/update", (req, res) => {
 	if (!req.body.email) {
 		res.send("[ERROR] Empty body!");
@@ -213,12 +231,10 @@ routes.post("/api/user/update", (req, res) => {
 
 		let query;
 		if (req.body.password !== "") {
-			query =
-				"UPDATE usuarios SET nome = ?, email = ?, senha = ?, uf = ?, cidade = ?, imagem = ?, id_escola = ? WHERE token = ?";
+			query = "UPDATE usuarios SET nome = ?, email = ?, senha = ?, uf = ?, cidade = ?, imagem = ?, id_escola = ? WHERE token = ?";
 			update(query, [nome, email, senha, uf, cidade, imagem, escola, token]);
 		} else {
-			query =
-				"UPDATE usuarios SET nome = ?, email = ?, uf = ?, cidade = ?, imagem = ?, id_escola = ? WHERE token = ?";
+			query = "UPDATE usuarios SET nome = ?, email = ?, uf = ?, cidade = ?, imagem = ?, id_escola = ? WHERE token = ?";
 			update(query, [nome, email, uf, cidade, imagem, escola, token]);
 		}
 
@@ -228,6 +244,7 @@ routes.post("/api/user/update", (req, res) => {
 					if (String(error.sqlMessage).includes("Duplicate entry")) {
 						res.send({ status: "[ERROR - EMAIL]" });
 					}
+					db.rollback(() => ({}));
 					console.log(error);
 				} else {
 					res.send({ status: "[OK]" });
@@ -237,9 +254,13 @@ routes.post("/api/user/update", (req, res) => {
 	}
 });
 
+// Traz todas as informacoes para popular tela ranking
 routes.get("/api/users", async (req, res) => {
 	db.query(
-		'SELECT imagem, nome, cidade, uf, xp, id_emblema as "emblema", token, (SELECT ds_descricao FROM emblemas WHERE usuarios.id_emblema = id_emblema) as "ds_emblema", (SELECT nm_escola FROM escolas WHERE id_escola = usuarios.id_escola) as "nm_escola" FROM usuarios WHERE tp_usuario = 2 ORDER BY xp DESC',
+		`SELECT imagem, nome, cidade, uf, xp, id_emblema as "emblema", token, (SELECT ds_descricao FROM emblemas WHERE usuarios.id_emblema = id_emblema) as "ds_emblema", (SELECT nm_escola FROM escolas WHERE id_escola = usuarios.id_escola) as "nm_escola"
+		 FROM usuarios 
+		 WHERE tp_usuario = 2 
+		 ORDER BY xp DESC`,
 		function (error, results, fields) {
 			if (error) {
 				res.json("[ERROR] Empty body!");
@@ -264,6 +285,8 @@ routes.get("/api/users", async (req, res) => {
 	);
 });
 
+
+// Busca escolas por cidade e estado
 routes.post("/api/schools/read", async (req, res) => {
 	if (!req.body.estado) {
 		res.status(500).send("[ERROR] Empty body!");
@@ -312,13 +335,13 @@ routes.post("/api/books/create", multer(config).single("file"), (req, res) => {
 					console.log(error);
 				} else if(results[0].id !== undefined) {
 					let id_usuario = String(results[0].id);
+					let antigoDest = path.join(__dirname, '..', 'tmp', req.file.filename);
+					let novoDest = path.join(__dirname, '..', 'tmp', 'uploads', id_usuario, req.file.filename);
 
 					// Cria uma pasta para o usuario, se não tiver
 					if (!fs.existsSync(path.join(__dirname, '..', 'tmp', 'uploads', id_usuario))){
 						fs.mkdirSync(path.join(__dirname, '..', 'tmp', 'uploads', id_usuario));
 					}
-					let antigoDest = path.join(__dirname, '..', 'tmp', req.file.filename);
-					let novoDest = path.join(__dirname, '..', 'tmp', 'uploads', id_usuario, req.file.filename);
 
 					// Salva apenas 5 livros por usuario
 					fs.readdir(path.join(__dirname, '..', 'tmp', 'uploads', id_usuario), async (err, files) => {
@@ -330,7 +353,17 @@ routes.post("/api/books/create", multer(config).single("file"), (req, res) => {
 								}); 
 							});
 
-							db.query("INSERT INTO anexos_usuario (titulo_anexo, anexo, id_categoria, id_usuario) VALUES (?, ?, ?, ?)", [titulo_anexo, req.file.filename, id_categoria, id_usuario]);
+							db.query("INSERT INTO anexos_usuario (titulo_anexo, anexo, id_categoria, id_usuario) VALUES (?, ?, ?, ?)", 
+							[titulo_anexo, req.file.filename, id_categoria, id_usuario],
+							(insertErr, insertResult, insertFields) => {
+								if (insertErr) {
+									db.rollback(() => ({}));
+									console.log(insertErr);
+
+									fs.unlink(novoDest, () => {});
+									res.send({ data: "[ERROR]" });
+								}
+							});
 						} else {
 							getBookText(antigoDest);
 							status = "[FULL FOLDER]"
@@ -409,6 +442,7 @@ routes.post("/api/book/delete", async (req, res) => {
 	}
 });
 
+// Extrai texto de um livro do usuario
 routes.post("/api/book/extract", async (req, res) => {
 	if (req.body === {}) {
 		res.status(500).send("[ERROR]");
@@ -444,8 +478,7 @@ routes.post("/api/book/extract", async (req, res) => {
 	}
 });
 
-
-
+// Consulta informacoes de uma palavra
 routes.post("/api/words/read", async (req, res) => {
 	if (req.body == {}) {
 		res.status(500).send("Undefined word...");
@@ -521,6 +554,7 @@ routes.post("/api/words/read", async (req, res) => {
 	}
 });
 
+// Salva/Remove uma palavra favorita no banco
 routes.post("/api/words/favorites/save", async (req, res) => {
 	if (req.body === {} && req.body.word !== "") {
 		res.status(500).send("Undefined word...");
@@ -535,6 +569,7 @@ routes.post("/api/words/favorites/save", async (req, res) => {
 			[word, req.body.token],
 			(error, results, fields) => {
 				if (error) {
+					db.rollback(() => ({}));
 					res.send({ data: "[ERROR]" });
 					console.log(error);
 				} else {
@@ -548,6 +583,7 @@ routes.post("/api/words/favorites/save", async (req, res) => {
 			[word, req.body.token],
 			(error, results, fields) => {
 				if (error) {
+					db.rollback(() => ({}));
 					res.send({ data: "[ERROR]" });
 					console.log(error);
 				} else {
@@ -558,6 +594,7 @@ routes.post("/api/words/favorites/save", async (req, res) => {
 	}
 });
 
+// Ler todas as palavras favoritas de um usuario
 routes.post("/api/words/favorites/read", async (req, res) => {
 	if (req.body === {}) {
 		res.status(500).send("Undefined word...");
@@ -633,6 +670,7 @@ routes.post("/api/question/create", async (req, res) => {
 	function insertOptions() {
 		db.query('INSERT INTO questoes (ds_questao, id_usuario) VALUES (?, (SELECT id FROM usuarios WHERE token = ?))', [ds_questao, token], (error, results, fields) => {
 			if (error) {
+				db.rollback(() => ({}));
 				res.send({ status: "[ERROR]" });
 				console.log(error);
 			} else {
@@ -687,6 +725,7 @@ routes.post("/api/question/update", async (req, res) => {
 	function updateOptions() {
 		db.query('UPDATE questoes SET ds_questao = ? WHERE ds_questao = ?', [ds_questao, antiga_ds_questao], (error, results, fields) => {
 			if (error) {
+				db.rollback(() => ({}));
 				res.send({ status: "[ERROR]" });
 				console.log(error);
 			} else {
@@ -721,6 +760,7 @@ routes.post("/api/question/delete", async (req, res) => {
 
 	db.query(query, id_questao, (error, results, fields) => {
 		if (error) {
+			db.rollback(() => ({}));
 			console.log(error);
 			res.send({ status: "[ERROR]" })
 		} else {
@@ -729,7 +769,6 @@ routes.post("/api/question/delete", async (req, res) => {
 	});
 
 });
-
 
 // Ler questoes disponiveis para um usuario
 routes.post("/api/questions/read", async (req, res) => {
@@ -768,6 +807,7 @@ routes.post("/api/questions/history", async (req, res) => {
 
 	db.query('UPDATE usuarios SET xp = xp + ? WHERE token = ?', [xp, token], (error, results, fields) => {
 		if (error) {
+			db.rollback(() => ({}));
 			res.send({ data: "[ERROR]" });
 			console.log(error);
 		}
@@ -776,6 +816,7 @@ routes.post("/api/questions/history", async (req, res) => {
 	if(id_questao !== "") {
 		db.query('INSERT INTO historico (id_questao, id_usuario) VALUES (?, (SELECT id FROM usuarios WHERE token = ?))', [id_questao, token], (error, results, fields) => {
 			if (error) {
+				db.rollback(() => ({}));
 				res.send({ data: "[ERROR]" });
 				console.log(error);
 			} else {
@@ -784,7 +825,6 @@ routes.post("/api/questions/history", async (req, res) => {
 		});
 	}
 });
-
 
 // Ler categorias
 routes.get("/api/categories/read", async (req, res) => {
