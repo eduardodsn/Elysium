@@ -49,7 +49,6 @@ routes.post("/api/user/create", (req, res) => {
 			],
 			function (error, results, fields) {
 				if (error) {
-					db.rollback(() => ({}));
 					if (String(error.sqlMessage).includes("Duplicate entry")) {
 						res.send({ status: "[ERROR - EMAIL]" });
 					} else {
@@ -84,7 +83,6 @@ routes.post("/api/user/login", (req, res) => {
 						req.body.email,
 					], (err, updateResult, updateFields) => {
 						if (err) {
-							db.rollback(() => ({}));
 							res.send("[ERROR]");
 							console.log(error);
 							return
@@ -119,14 +117,16 @@ routes.post("/api/user/delete", (req, res) => {
 				if (fs.existsSync(dir)) {
 					fs.rmdirSync(dir, {recursive: true})
 				}
-
+				console.log(req.body.token)
 				db.query(query, req.body.token, (err, deleteResult, deleteFields) => {
-					if (err) db.rollback(() => ({}));
-					res.send("[ERROR]");
-					console.log(error);
-					return
+					if (err) {
+						res.send("[ERROR]");
+						console.log(err);
+					} else {
+						res.send("[OK]");
+					}
 				});
-				res.send("[OK]");
+				
 			}
 		});
 	}
@@ -244,7 +244,6 @@ routes.post("/api/user/update", (req, res) => {
 					if (String(error.sqlMessage).includes("Duplicate entry")) {
 						res.send({ status: "[ERROR - EMAIL]" });
 					}
-					db.rollback(() => ({}));
 					console.log(error);
 				} else {
 					res.send({ status: "[OK]" });
@@ -357,7 +356,6 @@ routes.post("/api/books/create", multer(config).single("file"), (req, res) => {
 							[titulo_anexo, req.file.filename, id_categoria, id_usuario],
 							(insertErr, insertResult, insertFields) => {
 								if (insertErr) {
-									db.rollback(() => ({}));
 									console.log(insertErr);
 
 									fs.unlink(novoDest, () => {});
@@ -569,7 +567,6 @@ routes.post("/api/words/favorites/save", async (req, res) => {
 			[word, req.body.token],
 			(error, results, fields) => {
 				if (error) {
-					db.rollback(() => ({}));
 					res.send({ data: "[ERROR]" });
 					console.log(error);
 				} else {
@@ -583,7 +580,6 @@ routes.post("/api/words/favorites/save", async (req, res) => {
 			[word, req.body.token],
 			(error, results, fields) => {
 				if (error) {
-					db.rollback(() => ({}));
 					res.send({ data: "[ERROR]" });
 					console.log(error);
 				} else {
@@ -670,7 +666,6 @@ routes.post("/api/question/create", async (req, res) => {
 	function insertOptions() {
 		db.query('INSERT INTO questoes (ds_questao, id_usuario) VALUES (?, (SELECT id FROM usuarios WHERE token = ?))', [ds_questao, token], (error, results, fields) => {
 			if (error) {
-				db.rollback(() => ({}));
 				res.send({ status: "[ERROR]" });
 				console.log(error);
 			} else {
@@ -725,7 +720,6 @@ routes.post("/api/question/update", async (req, res) => {
 	function updateOptions() {
 		db.query('UPDATE questoes SET ds_questao = ? WHERE ds_questao = ?', [ds_questao, antiga_ds_questao], (error, results, fields) => {
 			if (error) {
-				db.rollback(() => ({}));
 				res.send({ status: "[ERROR]" });
 				console.log(error);
 			} else {
@@ -760,7 +754,6 @@ routes.post("/api/question/delete", async (req, res) => {
 
 	db.query(query, id_questao, (error, results, fields) => {
 		if (error) {
-			db.rollback(() => ({}));
 			console.log(error);
 			res.send({ status: "[ERROR]" })
 		} else {
@@ -807,7 +800,6 @@ routes.post("/api/questions/history", async (req, res) => {
 
 	db.query('UPDATE usuarios SET xp = xp + ? WHERE token = ?', [xp, token], (error, results, fields) => {
 		if (error) {
-			db.rollback(() => ({}));
 			res.send({ data: "[ERROR]" });
 			console.log(error);
 		}
@@ -816,7 +808,6 @@ routes.post("/api/questions/history", async (req, res) => {
 	if(id_questao !== "") {
 		db.query('INSERT INTO historico (id_questao, id_usuario) VALUES (?, (SELECT id FROM usuarios WHERE token = ?))', [id_questao, token], (error, results, fields) => {
 			if (error) {
-				db.rollback(() => ({}));
 				res.send({ data: "[ERROR]" });
 				console.log(error);
 			} else {
