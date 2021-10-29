@@ -176,7 +176,7 @@ export default function dictionary(props) {
       <div className={styles.dictContainer}>
         <div className={`${styles.dictLists} ${contextUserData.isSwitchChecked ? styles.darkContainer : ""}`} onClick={removeCard}>
           <ul className={styles.leftList}>
-            {favoriteWordsLeft.length != 0 ? favoriteWordsLeft.map((item, idx) => (
+            {favoriteWordsLeft.length + favoriteWordsRight.length != 0 ? favoriteWordsLeft.map((item, idx) => (
               <li key={idx}>
                 <span className={`${styles.word} ${contextUserData.isSwitchChecked ? styles.darkText : ""}`} onClick={handleWordClick}>
                   {item.palavra_favorita}
